@@ -1,16 +1,21 @@
-package prime.primeclient.responses;
+package com.prime.primeclient.responses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Responses<T> {
+import java.util.ArrayList;
 
-    @JsonProperty("status")
-    public int status;
+public class Responses<T> {
+    @JsonProperty("content")
+    public T content;
 
     @JsonProperty("message")
     public String message;
 
-    @JsonProperty("content")
-    public T content;
+    @JsonProperty("status")
+    public int status;
+
+
+
+
 
 }

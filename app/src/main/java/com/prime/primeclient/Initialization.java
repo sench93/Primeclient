@@ -8,4 +8,5 @@ public interface Initialization {
     void initFields();
     void initViews();
     void setViews();
+    void setFields();
 }
