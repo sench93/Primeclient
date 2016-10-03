@@ -1,4 +1,4 @@
-package com.prime.primeclient.LoginActivity;
+package com.prime.primeclient.AnalyticsActivity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,8 +18,10 @@ import android.widget.Toast;
 import com.prime.primeclient.Helper;
 import com.prime.primeclient.IPC_Application;
 import com.prime.primeclient.Initialization;
+import com.prime.primeclient.LoginActivity.LoginActivity;
 import com.prime.primeclient.MainActivity.MainActivity;
 import com.prime.primeclient.R;
+import com.prime.primeclient.responses.AnalyticsResponse;
 import com.prime.primeclient.responses.LoginResponse;
 import com.prime.primeclient.responses.Responses;
 
@@ -29,25 +31,27 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LoginActivity extends AppCompatActivity implements Initialization {
+import static com.prime.primeclient.LoginActivity.LoginActivity.PREFERENCE;
+
+public class AnalyticsLoginActivity extends AppCompatActivity implements Initialization {
     public static final String TAG = "PRIMECLIENTLOG";
-    private static final  String REQUESTNAME = "login";
+    private static final  String REQUESTNAME = "analytics";
     public  static final String  PREFERENCE = "com.prime.primeclient.TOKEN";
-    private TextInputEditText mail,password;
-    private TextInputLayout mailWrapper,passwordWrapper;
+    private TextInputLayout passwordWrapper;
+    private TextInputEditText password;
     private Button signin;
+
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_analytics);
         managePreferences();
-        preStartActions();
         initFields();
         initViews();
-        setViews();
         setFields();
+        setViews();
     }
 
     @Override
@@ -57,11 +61,10 @@ public class LoginActivity extends AppCompatActivity implements Initialization {
 
     @Override
     public void initViews() {
-        mail = (TextInputEditText) findViewById(R.id.login_mail_et);
-        password = (TextInputEditText) findViewById(R.id.login_password_et);
-        mailWrapper = (TextInputLayout) findViewById(R.id.login_mail_wrapper);
-        passwordWrapper = (TextInputLayout) findViewById(R.id.login_password_wrapper);
-        signin = (Button) findViewById(R.id.login_login_btn);
+
+        passwordWrapper = (TextInputLayout) findViewById(R.id.analytics_password_wrapper);
+        password = (TextInputEditText) findViewById(R.id.analytics_password_et);
+        signin  = (Button) findViewById(R.id.analytics_login_btn);
     }
 
     @Override
@@ -86,60 +89,52 @@ public class LoginActivity extends AppCompatActivity implements Initialization {
 
     @Override
     public void setFields() {
+
     }
 
-
     public void validateLoginFields(){
-        if(Helper.isConnected(LoginActivity.this)){
-            if(Helper.isValidEmail(mailWrapper.getEditText().getText().toString())){
+        if(Helper.isConnected(AnalyticsLoginActivity.this)){
+
                 if(Helper.isValidPassword(passwordWrapper.getEditText().getText().toString())){
                     String pass = passwordWrapper.getEditText().getText().toString();
-                    String log = mailWrapper.getEditText().getText().toString();
-                    tryToSignIn(REQUESTNAME,log,pass);
+                    Log.d(TAG, "validateLoginFields: " + REQUESTNAME);
+                    tryToSignIn(REQUESTNAME,pass,pref.getString(PREFERENCE,"empty"),"2016-10-01","2016-10-01");
                 }
 
                 else{
 
-                    Toast.makeText(LoginActivity.this, "You have missed something in your password. Password must containt at least 1 lower case letter, one uppercase, one number, and at least 8 character long... Try again.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AnalyticsLoginActivity.this, "You have missed something in your password. Password must containt at least 1 lower case letter, one uppercase, one number, and at least 8 character long... Try again.", Toast.LENGTH_LONG).show();
                 }
-            }
-
-            else{
-
-                Toast.makeText(LoginActivity.this, "Not correct email fomr", Toast.LENGTH_SHORT).show();
-            }
 
         }
-
         else{
-
-            Toast.makeText(LoginActivity.this, "No Internet Connection ...", Toast.LENGTH_SHORT).show();
-
+            Toast.makeText(AnalyticsLoginActivity.this, "No Internet Connection ...", Toast.LENGTH_SHORT).show();
         }
 
     }
+
     public void tryToSignIn(String... data){
 
-        IPC_Application.i().w().login(data[0],data[1],data[2]).enqueue(new Callback<Responses<List<LoginResponse>>>() {
+        IPC_Application.i().w().analyticsLogin(data[0],data[1],data[2],data[3],data[4]).enqueue(new Callback<Responses<List<AnalyticsResponse>>>() {
             @Override
-            public void onResponse(Call<Responses<List<LoginResponse>>> call, Response<Responses<List<LoginResponse>>> response) {
+            public void onResponse(Call<Responses<List<AnalyticsResponse>>> call, Response<Responses<List<AnalyticsResponse>>> response) {
                 if(response.code()==200){
                     if(response.body().message.equalsIgnoreCase("success")){
 
-                        editor.putString(PREFERENCE,response.body().content.get(0).token);
-                        editor.commit();
-                        goTo(MainActivity.class);
+                        Toast.makeText(AnalyticsLoginActivity.this, response.body().content.get(0).paymentAmount + ":" +response.body().content.get(0).bonusAmount, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AnalyticsLoginActivity.this, response.body().content.get(1).paymentAmount + ":" +response.body().content.get(1).bonusAmount, Toast.LENGTH_SHORT).show();
+
                     }
 
                     else{
-                        Toast.makeText(LoginActivity.this, response.body().message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AnalyticsLoginActivity.this, response.body().message, Toast.LENGTH_SHORT).show();
                     }
                 }
             }
 
             @Override
-            public void onFailure(Call<Responses<List<LoginResponse>>> call, Throwable t) {
-
+            public void onFailure(Call<Responses<List<AnalyticsResponse>>> call, Throwable t) {
+                Toast.makeText(AnalyticsLoginActivity.this, "Fuck Hayko", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -163,15 +158,5 @@ public class LoginActivity extends AppCompatActivity implements Initialization {
     private void goTo(Class to){
         Intent intent = new Intent(this,to);
         startActivity(intent);
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event)
-    {
-        if ((keyCode == KeyEvent.KEYCODE_BACK))
-        {
-            Toast.makeText(this, "Please Sign in", Toast.LENGTH_SHORT).show();
-        }
-        return super.onKeyDown(keyCode, event);
     }
 }

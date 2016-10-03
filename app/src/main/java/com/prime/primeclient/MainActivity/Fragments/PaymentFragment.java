@@ -12,6 +12,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -129,37 +130,46 @@ public class PaymentFragment extends Fragment implements Initialization {
 
                 else{
                     int temp  = -2222222;
+                    if(!TextUtils.isEmpty(amount)){
 
-                    try{
-                        temp = Integer.parseInt(amount);
-                    }
-                    catch (Exception e){
-                        progressManager(false);
-                        showError("Inputed Amount is not a number");
-                    }
-                    if(temp>=100 && temp<=9999999){
-                        progressManager(false);
-                        inputDialog();
-                    }
-                    else{
-                        if(temp!=-2222222 && temp<100){
+                        try{
+                            temp = Integer.parseInt(amount);
+                        }
+                        catch (Exception e){
                             progressManager(false);
-                            showError("For accumulation less than 100 AMD. Contact Service.");
-
+                            showError("Inputed Amount is not a number");
                         }
-
+                        if(temp>=100 && temp<=9999999){
+                            progressManager(false);
+                            inputDialog();
+                        }
                         else{
-                            if(temp>9999999){
+                            if(temp!=-2222222 && temp<100){
                                 progressManager(false);
-                                showError("For accumulation more than 9.999.999 AMD. Contact Service.");
-                            }
-                            else{
-                                progressManager(false);
-                                showError("UnHandled exception");
+                                showError("For accumulation less than 100 AMD. Contact Service.");
+
                             }
 
+                            else{
+                                if(temp>9999999){
+                                    progressManager(false);
+                                    showError("For accumulation more than 9.999.999 AMD. Contact Service.");
+                                }
+                                else{
+                                    progressManager(false);
+                                    showError("UnHandled exception");
+                                }
+
+                            }
                         }
                     }
+
+                    else{
+                        progressManager(false);
+                        showError("Amount is empty");
+
+                    }
+
 
                 }
 
@@ -214,11 +224,18 @@ public class PaymentFragment extends Fragment implements Initialization {
     }
     public void inputDialog(){
         AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+
         LinearLayout layout = new LinearLayout(getActivity());
         layout.setOrientation(LinearLayout.VERTICAL);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         params.setMargins(350, 0, 350, 0);
+        if(pin!=null){
+            ViewGroup parent = (ViewGroup) pin.getParent();
+            if (parent != null) {
+                parent.removeView(pin);
+            }
+        }
         pin.setInputType(InputType.TYPE_CLASS_NUMBER);
         pin.setImeOptions(EditorInfo.IME_ACTION_DONE);
         layout.addView(pin,params);
@@ -233,6 +250,7 @@ public class PaymentFragment extends Fragment implements Initialization {
                 dialog.dismiss();
                 progressManager(true);
                 tryToPay(REQUESTNAME,cardNumber,amount,pinCode,pref.getString(PREFERENCE,"empty"));
+
             }
         });
         alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

@@ -42,6 +42,7 @@
                 android:inputType="number"
                 android:maxLines="1"
                 android:imeOptions="actionNext"
+                android:maxLength="16"
                 android:singleLine="true"/>
 
         </android.support.design.widget.TextInputLayout>
@@ -69,7 +70,8 @@
                 android:inputType="number"
                 android:textColor="@color/white"
                 android:imeOptions="actionDone"
-                android:maxLines="1"/>
+                android:maxLines="1"
+                android:maxLength="7"/>
 
         </android.support.design.widget.TextInputLayout>
 

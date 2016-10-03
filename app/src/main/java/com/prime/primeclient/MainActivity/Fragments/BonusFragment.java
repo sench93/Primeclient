@@ -13,6 +13,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.prime.primeclient.Helper;
 import com.prime.primeclient.IPC_Application;
@@ -132,39 +134,47 @@ public class BonusFragment extends Fragment implements Initialization{
 
                 else{
                     int temp  = -2222222;
+                    Toast.makeText(getActivity(), String.valueOf(TextUtils.isEmpty(amount)), Toast.LENGTH_SHORT).show();
+                    if(!TextUtils.isEmpty(amount)){
+                        try{
+                            temp = Integer.parseInt(amount);
+                        }
+                        catch (Exception e){
+                            progressManager(false);
+                            showError("Inputed Amount is not a number");
+                        }
+                            if(temp>=100 && temp<=9999999){
 
-                    try{
-                        temp = Integer.parseInt(amount);
-                    }
-                    catch (Exception e){
-                        progressManager(false);
-                        showError("Inputed Amount is not a number");
-                    }
-                    if(temp>=100 && temp<=9999999){
+                            tryToAccumulate(REQUESTNAME,cardNumber,amount,pref.getString(PREFERENCE,"empty"));
+                        }
+                            else{
+                                if(temp!=-2222222 && temp<100){
+                                    progressManager(false);
+                                    showError("For accumulation less than 100 AMD. Contact Service.");
+                                }
 
-                        tryToAccumulate(REQUESTNAME,cardNumber,amount,pref.getString(PREFERENCE,"empty"));
+                                else{
+                                    if(temp>9999999){
+                                        progressManager(false);
+                                        showError("For accumulation more than 9.999.999 AMD. Contact Service.");
+                                    }
+                                    else{
+                                        progressManager(false);
+                                        showError("UnHandled exception");
+                                    }
+
+                                }
+                            }
+
+
                     }
                     else{
-                        if(temp!=-2222222 && temp<100){
-                            progressManager(false);
-                            showError("For accumulation less than 100 AMD. Contact Service.");
+                        progressManager(false);
+                        showError("Amount is empty ");
 
-                        }
-
-                        else{
-                            if(temp>9999999){
-                                progressManager(false);
-                                showError("For accumulation more than 9.999.999 AMD. Contact Service.");
-                            }
-                            else{
-                                progressManager(false);
-                                showError("UnHandled exception");
-                            }
-
-                        }
                     }
-
                 }
+
 
             }
             else{

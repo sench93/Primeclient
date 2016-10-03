@@ -5,7 +5,7 @@
     android:id="@+id/activity_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.prime.primeclient.MainActivity.MainActivity"
+    tools:context="com.prime.primeclient.LoginActivity.LoginActivity"
     android:orientation="vertical"
     android:background="#02000d">
     <LinearLayout
@@ -22,30 +22,7 @@
             android:textColor="@color/white"
             android:layout_marginTop="30dp"/>
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="Widget.Design.TextInputLayout"
-            android:layout_marginTop="25dp"
-            android:layout_marginLeft="60dp"
-            android:layout_marginRight="60dp"
-            android:id="@+id/payment_cardnumber_wrapper"
-            android:theme="@style/EditTextHint">
 
-            <android.support.design.widget.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Card Number"
-                android:textSize="25sp"
-                android:id="@+id/payment_cardnumber_et"
-                android:textColor="@color/white"
-                android:inputType="number"
-                android:maxLines="1"
-                android:imeOptions="actionNext"
-                android:maxLength="16"
-                android:singleLine="true"/>
-
-        </android.support.design.widget.TextInputLayout>
 
 
         <android.support.design.widget.TextInputLayout
@@ -58,20 +35,18 @@
             app:passwordToggleDrawable="@drawable/eye1"
             app:passwordToggleEnabled="true"
             app:passwordToggleTint="@color/white"
-            android:id="@+id/payment_amount_wrapper">
+            android:id="@+id/analytics_password_wrapper">
 
             <android.support.design.widget.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="Widget.Design.TextInputLayout"
-                android:hint="Bill Amount"
+                android:hint="Password"
                 android:textSize="25sp"
-                android:id="@+id/payment_amount_et"
-                android:inputType="number"
+                android:id="@+id/analytics_password_et"
+                android:inputType="textPassword"
                 android:textColor="@color/white"
                 android:imeOptions="actionDone"
-                android:maxLines="1"
-                android:maxLength="7"/>
+                android:maxLines="1"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -79,9 +54,9 @@
             android:layout_width="125dp"
             android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/pay"
+            android:background="@drawable/login_btn"
             android:layout_marginTop="25dp"
-            android:id="@+id/payment_pay_btn" />
+            android:id="@+id/analytics_login_btn" />
 
     </LinearLayout>
 

@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.prime.primeclient.AnalyticsActivity.AnalyticsLoginActivity;
 import com.prime.primeclient.Initialization;
 import com.prime.primeclient.LoginActivity.LoginActivity;
 import com.prime.primeclient.R;
@@ -61,7 +62,7 @@ public class SettingsFragment extends Fragment implements Initialization {
             statistics.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(getActivity(), "Fuck you Hayko", Toast.LENGTH_SHORT).show();
+                    goTo(AnalyticsLoginActivity.class);
                 }
             });
         }
