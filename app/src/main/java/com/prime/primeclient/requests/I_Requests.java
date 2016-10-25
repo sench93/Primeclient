@@ -19,7 +19,7 @@ public interface I_Requests {
 
     @FormUrlEncoded
     @POST("/Restaurants")
-    Call<Responses<List<LoginResponse>>> login(
+    Call<Responses<LoginResponse>> login(
                     @Field("requestName") String requestName,
                     @Field("mail") String login,
                     @Field("password") String password
@@ -27,7 +27,7 @@ public interface I_Requests {
 
     @FormUrlEncoded
     @POST("/Restaurants")
-    Call<Responses<List<EmptyContentResponse>>> accumulate(
+    Call<Responses<EmptyContentResponse>> accumulate(
             @Field("requestName") String requestName,
             @Field("primeCardNumber") String cardNumber,
             @Field("amount") String amount,
@@ -36,7 +36,7 @@ public interface I_Requests {
 
     @FormUrlEncoded
     @POST("/Restaurants")
-    Call<Responses<List<EmptyContentResponse>>> pay(
+    Call<Responses<EmptyContentResponse>> pay(
             @Field("requestName") String requestName,
             @Field("primeCardNumber") String cardNumber,
             @Field("amount") String amount,
@@ -48,11 +48,20 @@ public interface I_Requests {
 
     @FormUrlEncoded
     @POST("/Restaurants")
-    Call<Responses<List<AnalyticsResponse>>> analyticsLogin(
+    Call<Responses<EmptyContentResponse>> analyticsLogin(
             @Field("requestName") String requestName,
             @Field("password") String password,
+            @Field("token") String token
+    );
+
+
+    @FormUrlEncoded
+    @POST("/Restaurants")
+    Call<Responses<AnalyticsResponse>> showAnalytics(
+            @Field("requestName") String requestName,
             @Field("token") String token,
             @Field("startDate") String startDate,
             @Field("endDate") String endDate
     );
+
 }

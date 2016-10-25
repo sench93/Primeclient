@@ -22,7 +22,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AnalyticsActivity.AnalyticsLoginActivity"></activity>
+        <activity android:name=".AnalyticsActivity.AnalyticsLoginActivity" />
+        <activity android:name=".AnalyticsActivity.ShowAnalytics" />
+        <activity android:name=".MainActivity.PasscodeActivity" />
+        <activity android:name=".AnalyticsActivity.DetailedAnalytics.DetailedAnalytics"></activity>
     </application>
 
 </manifest>

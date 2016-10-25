@@ -23,11 +23,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.prime.primeclient.Helper;
 import com.prime.primeclient.IPC_Application;
 import com.prime.primeclient.Initialization;
 import com.prime.primeclient.LoginActivity.LoginActivity;
+import com.prime.primeclient.MainActivity.PasscodeActivity;
 import com.prime.primeclient.R;
 import com.prime.primeclient.responses.EmptyContentResponse;
 import com.prime.primeclient.responses.Responses;
@@ -115,6 +117,22 @@ public class PaymentFragment extends Fragment implements Initialization {
 
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode==101){
+            if(resultCode==1){
+                cardNumber.setText("");
+                amount.setText("");
+            }
+
+            else{
+                Toast.makeText(getActivity(), "Payment is not done. Try Again.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
     public void validateLoginFields(){
         progressManager(true);
         if(Helper.isConnected(getActivity())){
@@ -141,7 +159,8 @@ public class PaymentFragment extends Fragment implements Initialization {
                         }
                         if(temp>=100 && temp<=9999999){
                             progressManager(false);
-                            inputDialog();
+                          goTo(PasscodeActivity.class);
+                            //inputDialog();
                         }
                         else{
                             if(temp!=-2222222 && temp<100){
@@ -188,9 +207,9 @@ public class PaymentFragment extends Fragment implements Initialization {
             goTo(LoginActivity.class);
         }
         else{
-            IPC_Application.i().w().pay(data[0],data[1],data[2],data[3],data[4]).enqueue(new Callback<Responses<List<EmptyContentResponse>>>() {
+            IPC_Application.i().w().pay(data[0],data[1],data[2],data[3],data[4]).enqueue(new Callback<Responses<EmptyContentResponse>>() {
                 @Override
-                public void onResponse(Call<Responses<List<EmptyContentResponse>>> call, Response<Responses<List<EmptyContentResponse>>> response) {
+                public void onResponse(Call<Responses<EmptyContentResponse>> call, Response<Responses<EmptyContentResponse>> response) {
                     if(response.code()==200){
                         if(response.body().status==200 && response.body().message.equalsIgnoreCase("success")){
                             progressManager(false);
@@ -209,7 +228,7 @@ public class PaymentFragment extends Fragment implements Initialization {
                 }
 
                 @Override
-                public void onFailure(Call<Responses<List<EmptyContentResponse>>> call, Throwable t) {
+                public void onFailure(Call<Responses<EmptyContentResponse>> call, Throwable t) {
                     progressManager(false);
                     showError(t.getMessage());
                 }
@@ -262,8 +281,14 @@ public class PaymentFragment extends Fragment implements Initialization {
         alert.show();
     }
     private void goTo(Class to){
+        String cardNumber = cardNumberWrapper.getEditText().getText().toString();
+        String amount = amountWrapper.getEditText().getText().toString();
         Intent intent = new Intent(getActivity(),to);
-        startActivity(intent);
+        intent.putExtra("requestName",REQUESTNAME);
+        intent.putExtra("cardNumber",cardNumber);
+        intent.putExtra("amount",amount);
+        intent.putExtra("token",pref.getString(PREFERENCE,"empty"));
+        startActivityForResult(intent,101);
     }
 
     public void showError(String s){

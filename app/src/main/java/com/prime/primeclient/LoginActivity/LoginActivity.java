@@ -120,13 +120,14 @@ public class LoginActivity extends AppCompatActivity implements Initialization {
     }
     public void tryToSignIn(String... data){
 
-        IPC_Application.i().w().login(data[0],data[1],data[2]).enqueue(new Callback<Responses<List<LoginResponse>>>() {
+        IPC_Application.i().w().login(data[0],data[1],data[2]).enqueue(new Callback<Responses<LoginResponse>>() {
             @Override
-            public void onResponse(Call<Responses<List<LoginResponse>>> call, Response<Responses<List<LoginResponse>>> response) {
+            public void onResponse(Call<Responses<LoginResponse>> call, Response<Responses<LoginResponse>> response) {
                 if(response.code()==200){
                     if(response.body().message.equalsIgnoreCase("success")){
 
-                        editor.putString(PREFERENCE,response.body().content.get(0).token);
+                        Log.e(TAG, "onResponse: " + response.body().content.token );
+                        editor.putString(PREFERENCE,response.body().content.token);
                         editor.commit();
                         goTo(MainActivity.class);
                     }
@@ -138,8 +139,9 @@ public class LoginActivity extends AppCompatActivity implements Initialization {
             }
 
             @Override
-            public void onFailure(Call<Responses<List<LoginResponse>>> call, Throwable t) {
-
+            public void onFailure(Call<Responses<LoginResponse>> call, Throwable t) {
+                Toast.makeText(LoginActivity.this, t.getMessage()  +  " : " + t.getCause(), Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "onFailure: " + t.getMessage() + " "  + t.getCause());
             }
         });
     }

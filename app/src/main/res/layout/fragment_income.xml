@@ -1,0 +1,20 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.prime.primeclient.AnalyticsActivity.Fragments.Income"
+    android:background="#000">
+
+    <!--<Button-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="click"-->
+        <!--android:textColor="#fff"-->
+        <!--android:id="@+id/testBut"/>-->
+
+
+    <ExpandableListView
+        android:id="@+id/lvExp"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"/>
+</FrameLayout>

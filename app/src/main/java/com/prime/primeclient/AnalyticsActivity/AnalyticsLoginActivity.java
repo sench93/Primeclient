@@ -22,6 +22,7 @@ import com.prime.primeclient.LoginActivity.LoginActivity;
 import com.prime.primeclient.MainActivity.MainActivity;
 import com.prime.primeclient.R;
 import com.prime.primeclient.responses.AnalyticsResponse;
+import com.prime.primeclient.responses.EmptyContentResponse;
 import com.prime.primeclient.responses.LoginResponse;
 import com.prime.primeclient.responses.Responses;
 
@@ -35,7 +36,7 @@ import static com.prime.primeclient.LoginActivity.LoginActivity.PREFERENCE;
 
 public class AnalyticsLoginActivity extends AppCompatActivity implements Initialization {
     public static final String TAG = "PRIMECLIENTLOG";
-    private static final  String REQUESTNAME = "analytics";
+    private static final  String REQUESTNAME = "loginAnalytics";
     public  static final String  PREFERENCE = "com.prime.primeclient.TOKEN";
     private TextInputLayout passwordWrapper;
     private TextInputEditText password;
@@ -53,6 +54,8 @@ public class AnalyticsLoginActivity extends AppCompatActivity implements Initial
         setFields();
         setViews();
     }
+
+
 
     @Override
     public void initFields() {
@@ -115,14 +118,14 @@ public class AnalyticsLoginActivity extends AppCompatActivity implements Initial
 
     public void tryToSignIn(String... data){
 
-        IPC_Application.i().w().analyticsLogin(data[0],data[1],data[2],data[3],data[4]).enqueue(new Callback<Responses<List<AnalyticsResponse>>>() {
+        IPC_Application.i().w().analyticsLogin(data[0],data[1],data[2]).enqueue(new Callback<Responses<EmptyContentResponse>>() {
             @Override
-            public void onResponse(Call<Responses<List<AnalyticsResponse>>> call, Response<Responses<List<AnalyticsResponse>>> response) {
+            public void onResponse(Call<Responses<EmptyContentResponse>> call, Response<Responses<EmptyContentResponse>> response) {
                 if(response.code()==200){
                     if(response.body().message.equalsIgnoreCase("success")){
 
-                        Toast.makeText(AnalyticsLoginActivity.this, response.body().content.get(0).paymentAmount + ":" +response.body().content.get(0).bonusAmount, Toast.LENGTH_SHORT).show();
-                        Toast.makeText(AnalyticsLoginActivity.this, response.body().content.get(1).paymentAmount + ":" +response.body().content.get(1).bonusAmount, Toast.LENGTH_SHORT).show();
+
+                        goTo(ShowAnalytics.class);
 
                     }
 
@@ -133,8 +136,8 @@ public class AnalyticsLoginActivity extends AppCompatActivity implements Initial
             }
 
             @Override
-            public void onFailure(Call<Responses<List<AnalyticsResponse>>> call, Throwable t) {
-                Toast.makeText(AnalyticsLoginActivity.this, "Fuck Hayko", Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<Responses<EmptyContentResponse>> call, Throwable t) {
+                Toast.makeText(AnalyticsLoginActivity.this,"Fuck Hayko", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -145,18 +148,19 @@ public class AnalyticsLoginActivity extends AppCompatActivity implements Initial
         pref = getApplicationContext().getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE);
         editor = pref.edit();
     }
-    private void preStartActions(){
-        if(pref.getString(PREFERENCE,"empty").equalsIgnoreCase("empty")){
-            Toast.makeText(this, "Please Sign in to continue.", Toast.LENGTH_SHORT).show();
-        }
-        else{
-            goTo(MainActivity.class);
-        }
-
-    }
+//    private void preStartActions(){
+//        if(pref.getString(PREFERENCE,"empty").equalsIgnoreCase("empty")){
+//            Toast.makeText(this, "Please Sign in to continue.", Toast.LENGTH_SHORT).show();
+//        }
+//        else{
+//            goTo(MainActivity.class);
+//        }
+//
+//    }
 
     private void goTo(Class to){
         Intent intent = new Intent(this,to);
+        intent.putExtra("token",getIntent().getStringExtra("token"));
         startActivity(intent);
     }
 }

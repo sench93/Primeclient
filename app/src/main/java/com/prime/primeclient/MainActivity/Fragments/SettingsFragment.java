@@ -74,6 +74,7 @@ public class SettingsFragment extends Fragment implements Initialization {
 
     public void goTo(Class to){
         Intent intent = new Intent(getActivity(),to);
+        intent.putExtra("token",pref.getString(PREFERENCE,"empty"));
         startActivity(intent);
     }
 

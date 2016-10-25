@@ -191,9 +191,9 @@ public class BonusFragment extends Fragment implements Initialization{
         if (data[3].equalsIgnoreCase("empty")) {
             goTo(LoginActivity.class);
         } else {
-            IPC_Application.i().w().accumulate(data[0],data[1],data[2],data[3]).enqueue(new Callback<Responses<List<EmptyContentResponse>>>() {
+            IPC_Application.i().w().accumulate(data[0],data[1],data[2],data[3]).enqueue(new Callback<Responses<EmptyContentResponse>>() {
                 @Override
-                public void onResponse(Call<Responses<List<EmptyContentResponse>>> call, Response<Responses<List<EmptyContentResponse>>> response) {
+                public void onResponse(Call<Responses<EmptyContentResponse>> call, Response<Responses<EmptyContentResponse>> response) {
 
                     if(response.code()==200){
                         if(response.body().status==200 && response.body().message.equalsIgnoreCase("success")){
@@ -213,7 +213,7 @@ public class BonusFragment extends Fragment implements Initialization{
                 }
 
                 @Override
-                public void onFailure(Call<Responses<List<EmptyContentResponse>>> call, Throwable t) {
+                public void onFailure(Call<Responses<EmptyContentResponse>> call, Throwable t) {
                     progressManager(false);
                     showError(t.getMessage());
                 }
