@@ -1,8 +1,10 @@
 package com.prime.primeclient.AnalyticsActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -23,11 +25,12 @@ import com.prime.primeclient.MainActivity.MainActivity;
 import com.prime.primeclient.R;
 import com.prime.primeclient.responses.AnalyticsResponse;
 import com.prime.primeclient.responses.EmptyContentResponse;
-import com.prime.primeclient.responses.LoginResponse;
+import com.prime.primeclient.responses.loginResponse;
 import com.prime.primeclient.responses.Responses;
 
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -41,6 +44,9 @@ public class AnalyticsLoginActivity extends AppCompatActivity implements Initial
     private TextInputLayout passwordWrapper;
     private TextInputEditText password;
     private Button signin;
+    private SweetAlertDialog pDialog;
+    private SweetAlertDialog sDialog;
+    private SweetAlertDialog eDialog;
 
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
@@ -111,7 +117,7 @@ public class AnalyticsLoginActivity extends AppCompatActivity implements Initial
 
         }
         else{
-            Toast.makeText(AnalyticsLoginActivity.this, "No Internet Connection ...", Toast.LENGTH_SHORT).show();
+            showError("Connect to Internet and try again.");
         }
 
     }
@@ -137,7 +143,7 @@ public class AnalyticsLoginActivity extends AppCompatActivity implements Initial
 
             @Override
             public void onFailure(Call<Responses<EmptyContentResponse>> call, Throwable t) {
-                Toast.makeText(AnalyticsLoginActivity.this,"Fuck Hayko", Toast.LENGTH_SHORT).show();
+                showError("Something really bad is happening. Try again later or directly contact support.");
             }
         });
     }
@@ -162,5 +168,55 @@ public class AnalyticsLoginActivity extends AppCompatActivity implements Initial
         Intent intent = new Intent(this,to);
         intent.putExtra("token",getIntent().getStringExtra("token"));
         startActivity(intent);
+    }
+
+    public void progressManager(Boolean show){
+        if(show){
+            pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+            pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+            pDialog.setTitleText("Loading");
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        else{
+            if(pDialog==null){
+                pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+                pDialog.dismiss();
+            }
+            pDialog.dismiss();
+            pDialog=null;
+        }
+
+    }
+
+
+    public void showError(String s){
+        eDialog =new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE);
+        eDialog. setTitleText("Oops...")
+                .setContentText(s);
+        eDialog.show();
+        eDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+            }
+        });
+
+    }
+
+    public void showSuccess(String s) {
+
+        sDialog = new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE);
+        sDialog.setTitleText("Good job!")
+                .setContentText(s);
+        sDialog.show();
+
+        sDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                setResult(1);
+                finish();
+            }
+        });
     }
 }

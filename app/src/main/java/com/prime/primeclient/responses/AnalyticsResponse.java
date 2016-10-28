@@ -10,6 +10,9 @@ import java.util.ArrayList;
 
 public class AnalyticsResponse {
 
+    @JsonProperty("customersCount")
+    public int customersCount;
+
     @JsonProperty("typeTwo")
     public ArrayList<TypeTwo> typeTwo;
 

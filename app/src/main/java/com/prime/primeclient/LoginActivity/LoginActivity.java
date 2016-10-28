@@ -20,7 +20,7 @@ import com.prime.primeclient.IPC_Application;
 import com.prime.primeclient.Initialization;
 import com.prime.primeclient.MainActivity.MainActivity;
 import com.prime.primeclient.R;
-import com.prime.primeclient.responses.LoginResponse;
+import com.prime.primeclient.responses.loginResponse;
 import com.prime.primeclient.responses.Responses;
 
 import java.util.List;
@@ -120,9 +120,9 @@ public class LoginActivity extends AppCompatActivity implements Initialization {
     }
     public void tryToSignIn(String... data){
 
-        IPC_Application.i().w().login(data[0],data[1],data[2]).enqueue(new Callback<Responses<LoginResponse>>() {
+        IPC_Application.i().w().login(data[0],data[1],data[2]).enqueue(new Callback<Responses<loginResponse>>() {
             @Override
-            public void onResponse(Call<Responses<LoginResponse>> call, Response<Responses<LoginResponse>> response) {
+            public void onResponse(Call<Responses<loginResponse>> call, Response<Responses<loginResponse>> response) {
                 if(response.code()==200){
                     if(response.body().message.equalsIgnoreCase("success")){
 
@@ -139,7 +139,7 @@ public class LoginActivity extends AppCompatActivity implements Initialization {
             }
 
             @Override
-            public void onFailure(Call<Responses<LoginResponse>> call, Throwable t) {
+            public void onFailure(Call<Responses<loginResponse>> call, Throwable t) {
                 Toast.makeText(LoginActivity.this, t.getMessage()  +  " : " + t.getCause(), Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "onFailure: " + t.getMessage() + " "  + t.getCause());
             }

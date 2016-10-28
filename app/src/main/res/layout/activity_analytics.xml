@@ -54,7 +54,7 @@
             android:layout_width="125dp"
             android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/login_btn"
+            android:background="@drawable/login_btn_low"
             android:layout_marginTop="25dp"
             android:id="@+id/analytics_login_btn" />
 

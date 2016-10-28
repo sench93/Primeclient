@@ -121,7 +121,7 @@ public class BonusFragment extends Fragment implements Initialization{
     }
     public void validateLoginFields(){
         progressManager(true);
-        if(Helper.isConnected(getActivity())){
+
             if(Helper.isValidCardNumber(cardNumberWrapper.getEditText().getText().toString())){
                 String cardNumber = cardNumberWrapper.getEditText().getText().toString();
                 String amount = amountWrapper.getEditText().getText().toString();
@@ -134,7 +134,6 @@ public class BonusFragment extends Fragment implements Initialization{
 
                 else{
                     int temp  = -2222222;
-                    Toast.makeText(getActivity(), String.valueOf(TextUtils.isEmpty(amount)), Toast.LENGTH_SHORT).show();
                     if(!TextUtils.isEmpty(amount)){
                         try{
                             temp = Integer.parseInt(amount);
@@ -144,8 +143,14 @@ public class BonusFragment extends Fragment implements Initialization{
                             showError("Inputed Amount is not a number");
                         }
                             if(temp>=100 && temp<=9999999){
+                            if(Helper.isConnected(getActivity())){
 
-                            tryToAccumulate(REQUESTNAME,cardNumber,amount,pref.getString(PREFERENCE,"empty"));
+                                tryToAccumulate(REQUESTNAME,cardNumber,amount,pref.getString(PREFERENCE,"empty"));
+                            }
+                                else{
+                                progressManager(false);
+                                showError("Connect to Internet and try again.");
+                            }
                         }
                             else{
                                 if(temp!=-2222222 && temp<100){
@@ -183,7 +188,7 @@ public class BonusFragment extends Fragment implements Initialization{
 
             }
 
-        }
+
 
     }
 
@@ -208,14 +213,14 @@ public class BonusFragment extends Fragment implements Initialization{
 
                     else{
                         progressManager(false);
-                        showError("Oops something is wrong with server :( Fuck Hayk.");
+                        showError("Oops something is wrong with server :( Contact us.");
                     }
                 }
 
                 @Override
                 public void onFailure(Call<Responses<EmptyContentResponse>> call, Throwable t) {
                     progressManager(false);
-                    showError(t.getMessage());
+                    showError("Something really bad is happening. Try again later or directly contact support.");
                 }
             });
 

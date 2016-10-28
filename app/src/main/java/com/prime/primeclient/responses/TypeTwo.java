@@ -8,13 +8,13 @@ import java.io.Serializable;
  * Created by sench on 10/24/2016.
  */
 
-public class TypeTwo implements Serializable {
+public class TypeTwo extends Object implements Serializable {
 
     @JsonProperty("paymentAmount")
     public int paymentAmount;
 
-    @JsonProperty("bonusAmount")
-    public int bonusAmount;
+    @JsonProperty("restaurantBonusAmount")
+    public int restaurantBonusAmount;
 
     @JsonProperty("date")
     public String date;

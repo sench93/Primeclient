@@ -1,7 +1,7 @@
 package com.prime.primeclient.requests;
 import com.prime.primeclient.responses.AnalyticsResponse;
 import com.prime.primeclient.responses.EmptyContentResponse;
-import com.prime.primeclient.responses.LoginResponse;
+import com.prime.primeclient.responses.loginResponse;
 import com.prime.primeclient.responses.Responses;
 
 
@@ -19,7 +19,7 @@ public interface I_Requests {
 
     @FormUrlEncoded
     @POST("/Restaurants")
-    Call<Responses<LoginResponse>> login(
+    Call<Responses<loginResponse>> login(
                     @Field("requestName") String requestName,
                     @Field("mail") String login,
                     @Field("password") String password

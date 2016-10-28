@@ -6,8 +6,6 @@
     android:orientation="vertical"
     tools:context=".MainActivity.MainActivity">
 
-
-
     <com.prime.primeclient.MainActivity.SlidingTabLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"

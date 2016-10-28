@@ -89,6 +89,8 @@ public class PaymentFragment extends Fragment implements Initialization {
                 if(i== EditorInfo.IME_ACTION_DONE){
                     hideKeyboard();
                     validateLoginFields();
+
+
                 }
                 return true;
             }
@@ -99,6 +101,8 @@ public class PaymentFragment extends Fragment implements Initialization {
             public void onClick(View view) {
                 hideKeyboard();
                 validateLoginFields();
+
+
             }
         });
         pin.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -135,7 +139,6 @@ public class PaymentFragment extends Fragment implements Initialization {
 
     public void validateLoginFields(){
         progressManager(true);
-        if(Helper.isConnected(getActivity())){
             if(Helper.isValidCardNumber(cardNumberWrapper.getEditText().getText().toString())){
                 String cardNumber = cardNumberWrapper.getEditText().getText().toString();
                 String amount = amountWrapper.getEditText().getText().toString();
@@ -159,7 +162,7 @@ public class PaymentFragment extends Fragment implements Initialization {
                         }
                         if(temp>=100 && temp<=9999999){
                             progressManager(false);
-                          goTo(PasscodeActivity.class);
+                            goTo(PasscodeActivity.class);
                             //inputDialog();
                         }
                         else{
@@ -199,7 +202,7 @@ public class PaymentFragment extends Fragment implements Initialization {
 
             }
 
-        }
+
 
     }
     public void tryToPay(String... data) {
@@ -230,7 +233,7 @@ public class PaymentFragment extends Fragment implements Initialization {
                 @Override
                 public void onFailure(Call<Responses<EmptyContentResponse>> call, Throwable t) {
                     progressManager(false);
-                    showError(t.getMessage());
+                    showError("Something really bad is happening. Try again later or directly contact support.");
                 }
             });
         }

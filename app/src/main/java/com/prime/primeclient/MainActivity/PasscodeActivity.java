@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.prime.primeclient.Helper;
 import com.prime.primeclient.IPC_Application;
 import com.prime.primeclient.Initialization;
 import com.prime.primeclient.R;
@@ -24,7 +25,6 @@ import retrofit2.Response;
 
 public class PasscodeActivity extends AppCompatActivity implements Initialization{
     private TextView inputField;
-    private Button one,two,three,four,five,six,seven,eight,nine,zero,clear,cancel;
     private SweetAlertDialog pDialog;
     private SweetAlertDialog sDialog;
     private SweetAlertDialog eDialog;
@@ -43,20 +43,6 @@ public class PasscodeActivity extends AppCompatActivity implements Initializatio
     @Override
     public void initViews() {
         inputField = (TextView) findViewById(R.id.inputField);
-        one = (Button) findViewById(R.id.one);
-        two = (Button) findViewById(R.id.two);
-        three = (Button) findViewById(R.id.three);
-        four = (Button) findViewById(R.id.four);
-        five = (Button) findViewById(R.id.five);
-        six = (Button) findViewById(R.id.six);
-        seven = (Button) findViewById(R.id.seven);
-        eight = (Button) findViewById(R.id.eight);
-        nine = (Button) findViewById(R.id.nine);
-        zero = (Button) findViewById(R.id.zero);
-        cancel = (Button) findViewById(R.id.cancel);
-        clear = (Button) findViewById(R.id.clear);
-
-
     }
 
     @Override
@@ -71,21 +57,22 @@ public class PasscodeActivity extends AppCompatActivity implements Initializatio
 
     public void onClick(View view) {
         Button temp = (Button)findViewById(view.getId());
-            switch(view.getId()){
-                case R.id.cancel:
-                    setResult(0);
-                    finish();
-                    // TODO: 10/24/2016
-                    break;
-                case R.id.clear:
-                    if(inputField.getText().length()>0){
-                        inputField.setText(inputField.getText().toString().substring(0,inputField.getText().length()-1));
-                    }
-                    break;
-                default:
-                    numClickBehaviour(temp.getText().toString());
-                    break;
-            }
+        switch(view.getId()){
+            case R.id.cancel:
+                setResult(0);
+                finish();
+                // TODO: 10/24/2016
+                break;
+            case R.id.clear:
+                if(inputField.getText().length()>0){
+                    inputField.setText(inputField.getText().toString().substring(0,inputField.getText().length()-1));
+                }
+                break;
+            default:
+                numClickBehaviour(temp.getText().toString());
+                break;
+        }
+
 
     }
 
@@ -96,12 +83,18 @@ public class PasscodeActivity extends AppCompatActivity implements Initializatio
         }
 
         else if(inputField.getText().length()==3){
-            inputField.setText(inputField.getText().toString() + s);
-            String requestName = getIntent().getStringExtra("requestName");
-            String cardNumber = getIntent().getStringExtra("cardNumber");
-            String amount = getIntent().getStringExtra("amount");
-            String token = getIntent().getStringExtra("token");
-            tryToPay(requestName,cardNumber,amount,inputField.getText().toString(),token);
+            if(Helper.isConnected(this)){
+
+                inputField.setText(inputField.getText().toString() + s);
+                String requestName = getIntent().getStringExtra("requestName");
+                String cardNumber = getIntent().getStringExtra("cardNumber");
+                String amount = getIntent().getStringExtra("amount");
+                String token = getIntent().getStringExtra("token");
+                tryToPay(requestName,cardNumber,amount,inputField.getText().toString(),token);
+            }
+            else{
+                showError("Connect to Internet and try again.");
+            }
         }
 
     }
@@ -126,14 +119,14 @@ public class PasscodeActivity extends AppCompatActivity implements Initializatio
 
                 else{
                     progressManager(false);
-                    showError("Oops something is wrong with server :( Fuck Hayk.");
+                    showError("Oops something is wrong with server :( Try again.");
                 }
             }
 
             @Override
             public void onFailure(Call<Responses<EmptyContentResponse>> call, Throwable t) {
                 progressManager(false);
-                showError(t.getMessage());
+                showError("Something really bad is happening. Try again later or directly contact support.");
             }
         });
 
