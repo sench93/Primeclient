@@ -76,8 +76,8 @@ public class DetailedFragmentTemplate extends Fragment implements Initialization
         rr.hasFixedSize();
         rr.setLayoutManager(mLayoutManagerR);
         rr.setAdapter(mAdapterR);
-        incomeTotal.setText("Total  " + String.valueOf(totalExpenses));
-        outcomeTotal.setText("Total  " + String.valueOf(totalIncome));
+        incomeTotal.setText(String.valueOf(totalExpenses));
+        outcomeTotal.setText(String.valueOf(totalIncome));
     }
 
     @Override

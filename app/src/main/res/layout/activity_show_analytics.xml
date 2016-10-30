@@ -57,7 +57,7 @@
                         android:textSize="40sp"
                         android:textAlignment="center"
                         android:textColor="#fff"
-                        android:text="74500000"
+                        android:text="N/A"
                         android:layout_marginRight="16dp"
                         android:id="@+id/totalIncomeShow"
                         android:layout_weight="4"/>
@@ -127,7 +127,7 @@
                     android:textSize="40sp"
                     android:textAlignment="center"
                     android:textColor="#fff"
-                    android:text="74500000"
+                    android:text="N/A"
                     android:id="@+id/totalExpensesShow"
                     android:layout_marginRight="16dp"
                     android:layout_weight="4"/>
@@ -136,6 +136,68 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:src="@drawable/amd_low"
+                    android:layout_weight="1"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        app:cardCornerRadius="30dp"
+        app:cardBackgroundColor="#181717"
+        android:layout_marginTop="20dp"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="5dp"
+            android:weightSum="5.7">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="3.5">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="28sp"
+                    android:textColor="#fff"
+                    android:textAlignment="center"
+                    android:text="Customers"/>
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/primeBlue"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_weight="2.2">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="40sp"
+                    android:textAlignment="center"
+                    android:textColor="#fff"
+                    android:text="N/A"
+                    android:id="@+id/totalCustomersShow"
+                    android:layout_marginRight="16dp"
+                    android:layout_weight="4"/>
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/happy_face_low"
                     android:layout_weight="1"
                     />
             </LinearLayout>

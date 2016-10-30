@@ -82,3 +82,5 @@ public class DetailedAnalytics extends AppCompatActivity implements Initializati
 
     }
 }
+
+// TODO: 10/29/2016  check all predictable null pointer exceptions !!! all in every class

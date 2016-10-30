@@ -107,19 +107,22 @@
       android:layout_weight="4.5"
       android:weightSum="2"
       android:orientation="horizontal"
-      android:padding="5dp">
+      android:paddingLeft="5dp"
+      android:paddingRight="5dp"
+      >
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="15dp"
+        android:layout_height="45dp"
+        app:cardCornerRadius="22.5dp"
         app:cardBackgroundColor="#181717"
         android:layout_weight="1"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:layout_marginRight="5dp">
 
       <ImageView
           android:layout_width="24dp"
           android:layout_height="24dp"
-          android:src="@drawable/amd_low"
+          android:src="@drawable/sum_low"
           android:layout_gravity="end|center_vertical"
           android:layout_marginRight="10dp"/>
 
@@ -128,20 +131,22 @@
           android:layout_height="wrap_content"
           android:textAlignment="gravity"
           android:text="500"
-          android:textSize="20sp"
+          android:textSize="25sp"
           android:textColor="#fff"
           android:gravity="center_vertical"
+          android:layout_gravity="center_vertical"
           android:layout_marginLeft="10dp"
           android:id="@+id/totalExpense"/>
 
     </android.support.v7.widget.CardView>
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="15dp"
+        android:layout_height="45dp"
+        app:cardCornerRadius="22.5dp"
         app:cardBackgroundColor="#181717"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
+        android:layout_marginLeft="5dp"
         >
 
       <TextView
@@ -149,7 +154,7 @@
           android:layout_height="wrap_content"
           android:textAlignment="gravity"
           android:text="500"
-          android:textSize="20sp"
+          android:textSize="25sp"
           android:textColor="#fff"
           android:id="@+id/totalAmount"
           android:layout_gravity="end|center_vertical"
@@ -160,7 +165,7 @@
       <ImageView
           android:layout_width="24dp"
           android:layout_height="24dp"
-          android:src="@drawable/amd_low"
+          android:src="@drawable/sum_low"
           android:gravity="center_vertical"
           android:layout_gravity="center_vertical"
           android:layout_marginLeft="10dp"
