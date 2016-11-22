@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
+import com.androidifygeeks.library.fragment.TabDialogFragment;
 import com.prime.primeclient.AnalyticsActivity.Adapters.ExpandableListAdapter;
 import com.prime.primeclient.AnalyticsActivity.DetailedAnalytics.DetailedAnalytics;
 import com.prime.primeclient.IPC_Application;
@@ -50,11 +51,23 @@ public class Income extends Fragment {
                              Bundle savedInstanceState) {
          v= inflater.inflate(R.layout.fragment_income, container, false);
 
-        getData("analytics","4oohgs3td5jc0shhvfqf9ombtg","2016-07-01","2016-11-11");
+        //getData("analytics","4oohgs3td5jc0shhvfqf9ombtg","2016-07-01","2016-11-11");
+        dialogManager();
         return v;
     }
 
 
+    public void dialogManager(){
+        TabDialogFragment.createBuilder(getActivity(), getActivity().getSupportFragmentManager())
+                .setTitle("hello")
+                .setSubTitle("subtitle")
+                .setTabButtonText(new CharSequence[]{"Tab1", "Tab2"})
+                .setPositiveButtonText("Love")
+                .setNegativeButtonText("Hate")
+                .setNeutralButtonText("WTF?")
+                .setRequestCode(1001)
+                .show();
+    }
 
 
 
